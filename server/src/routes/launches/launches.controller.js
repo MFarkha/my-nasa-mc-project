@@ -33,7 +33,7 @@ const httpAbortLaunch = (req, res) => {
     const launchId = Number(req.params.id);
     if (!existsLaunchWithId(launchId)) {
         return res.status(404).json({
-            error: `Launch not found ${launchId}`
+            error: `Launch not found`
         });
     } else {
         const aborted = abortLaunchWithId(launchId);
