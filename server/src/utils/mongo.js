@@ -10,16 +10,17 @@ mongoose.connection.on('error', (err) => {
 });
 
 const mongoConnect = async () => {
-    await mongoose.connect(process.env.MONGO_ATLAS_URI);
+    try {
+        await mongoose.connect(process.env.MONGO_ATLAS_URI);
+    } catch(err) {
+        throw new Error('Cound not connect a MongoDB host, did you properly set up MONGO_ATLAS_URI variable? ', err);
+    }
 }
 
 const mongoDisconnect = async () => {
     await mongoose.disconnect();
 }
 
-const initDatabase = async () => {
-    
-}
 module.exports = {
     mongoConnect,
     mongoDisconnect
