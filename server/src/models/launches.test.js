@@ -12,7 +12,7 @@ describe ('Test /launches API', () => {
     describe ('Test GET /launches', () => {
         it('should respond with 200 success', async () => {
             const response = await request(app)
-                .get('/launches')
+                .get('/v1/launches')
                 .expect('Content-type', /json/)
                 .expect(200);
         })
@@ -37,7 +37,7 @@ describe ('Test /launches API', () => {
         }
         it('should respond with 201 success', async () => {
             const response = await request(app)
-                .post('/launches')
+                .post('/v1/launches')
                 .send(completeLaunch)
                 .expect('Content-type', /json/)
                 .expect(201);
@@ -48,7 +48,7 @@ describe ('Test /launches API', () => {
         });
         it('should catch missing required properties', async () => {
             const response = await request(app)
-                .post('/launches')
+                .post('/v1/launches')
                 .send(launchWithoutDate)
                 .expect('Content-type', /json/)
                 .expect(400);
@@ -56,21 +56,21 @@ describe ('Test /launches API', () => {
         });
         it('should catch invalid date', async () => {
             const response = await request(app)
-                .post('/launches')
+                .post('/v1/launches')
                 .send(launchWithWrongtDate)
                 .expect('Content-type', /json/)
                 .expect(400);
             expect(response.body).toStrictEqual({ error: 'Invalid date format' });
         })
     });
-    // describe ('Test DELETE /launches/:id: abort a launch', () => {
-    //     const launchId = 100;
-    //     it('should respond with 200 success', async () => {
-    //         const response = await request(app)
-    //             .delete(`/launches/${launchId}`)
-    //             .expect('Content-type', /json/)
-    //             .expect(200);
-    //         expect(response.body).toHaveProperty('ok', true);
-    //     })
-    // });
+    describe ('Test DELETE /launches/:id: abort a launch', () => {
+        const launchId = 101;
+        it('should respond with 200 success', async () => {
+            const response = await request(app)
+                .delete(`/v1/launches/${launchId}`)
+                .expect('Content-type', /json/)
+                .expect(200);
+            expect(response.body).toHaveProperty('ok', true);
+        })
+    });
 })
