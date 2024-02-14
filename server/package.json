@@ -6,8 +6,11 @@
   "scripts": {
     "test": "jest",
     "test-watch": "jest --watch",
-    "watch": "nodemon src/server.js",
-    "start": "node src/server.js"
+    "server": "nodemon src/server.js",
+    "start": "node src/server.js",
+    "cluster": "pm2 start src/server.js -i max",
+    "cluster-log": "pm2 logs",
+    "cluster-stop": "pm2 delete server"
   },
   "author": "Farkhad Maten",
   "license": "ISC",
@@ -18,9 +21,12 @@
   "dependencies": {
     "cors": "^2.8.5",
     "csv-parse": "^5.5.3",
+    "dotenv": "^16.4.3",
     "express": "^4.18.2",
     "fs": "^0.0.1-security",
     "jest": "^29.7.0",
-    "morgan": "^1.10.0"
+    "mongoose": "^8.1.2",
+    "morgan": "^1.10.0",
+    "pm2": "^5.3.1"
   }
 }
