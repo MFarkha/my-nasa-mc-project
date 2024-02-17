@@ -31,7 +31,6 @@ jobs:
         MONGO_ATLAS_URI: ${{ secrets.MONGO_ATLAS_URI }}
       run: |
         npm install
-        echo $MONGO_ATLAS_URI
         npm run test
 
     # - uses: azure/docker-login@v1
@@ -41,6 +40,8 @@ jobs:
     #     password: ${{ secrets.REGISTRY_PASSWORD }}
   
     - name: Build the Docker image
+      env:
+        MONGO_ATLAS_URI: ${{ secrets.MONGO_ATLAS_URI }}
       run: |
         docker build . -t famaten/my-nasa-mc-project
         docker push famaten/my-nasa-mc-project
