@@ -13,7 +13,7 @@ This is not an official NASA application and is not affiliated with NASA or Spac
     - `MONGO_ATLAS_URI=` - MongoDB host connection uri
     - `PORT=` - optional
 
-4. To deploy the app:
+4. To deploy the app localy:
     - `npm deploy`
 
 ### Contributors
