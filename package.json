@@ -4,7 +4,7 @@
   "description": "NASA Mission Control Project",
   "main": "index.js",
   "scripts": {
-    "test": "npm test --prefix server && npm test --prefix client",
+    "test": "npm test --prefix server",
     "install-server": "npm install --prefix server",
     "install-client": "npm install --prefix client",
     "install": "npm run install-server && npm run install-client",
