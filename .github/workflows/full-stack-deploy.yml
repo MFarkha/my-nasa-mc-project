@@ -29,13 +29,13 @@ jobs:
         cache: 'npm'
 
     # Runs a single command using the runners shell
-    - name: Run a one-line script
-      run: echo '${{ secrets.MONGO_ATLAS_URI }}' | sed 's/./& /g'
+    # - name: Run a one-line script
+    #   run: echo '${{ secrets.MONGO_ATLAS_URI }}' | sed 's/./& /g'
 
     - name: npm install and test
       run: |
         npm install
-        MONGO_ATLAS_URI='${{ secrets.MONGO_ATLAS_URI }}' npm run test
+        MONGO_ATLAS_URI="${{ secrets.MONGO_ATLAS_URI }}" npm run test
 
     # - uses: azure/docker-login@v1
     #   with:
