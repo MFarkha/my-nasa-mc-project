@@ -1,0 +1,54 @@
+name: Deploy full stack app to Azure
+
+on:
+    push:
+        branches:
+        - github
+    workflow_dispatch: {}
+
+env:
+  AZURE_WEBAPP_NAME: your-app-name    # set this to your application's name
+  NODE_VERSION: '18.x'                # set this to the node version to use
+  CONTAINER_REGISTRY: https://registry.hub.docker.com/v2/
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v3
+
+    - name: Set up Node.js
+      uses: actions/setup-node@v3
+      with:
+        node-version: ${{ env.NODE_VERSION }}
+        cache: 'npm'
+
+    - name: npm test
+      run: |
+        npm install
+        npm run test
+
+    # - uses: azure/docker-login@v1
+    #   with:
+    #     login-server: contoso.azurecr.io
+    #     username: ${{ secrets.REGISTRY_USERNAME }}
+    #     password: ${{ secrets.REGISTRY_PASSWORD }}
+  
+    - name: Build the Docker image
+      run: |
+        docker build . -t famaten/my-nasa-mc-project
+        docker push famaten/my-nasa-mc-project
+  
+    # - name: 'Deploy to Azure WebApp'
+    #   id: deploy-to-webapp
+    #   uses: azure/webapps-deploy@v2
+    #   with:
+    #     app-name: ${{ env.AZURE_WEBAPP_NAME }}
+    #     publish-profile: ${{ secrets.AZURE_WEBAPP_PUBLISH_PROFILE }}
+    #     # package: ${{ env.AZURE_WEBAPP_PACKAGE_PATH }}
+    #     images: 'famaten/my-nasa-mc-project'
+
+
