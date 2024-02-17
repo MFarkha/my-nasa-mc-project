@@ -28,7 +28,7 @@ jobs:
 
     - name: npm install and test
       env:
-        MONGO_ATLAS_URI: ${{ vars.MONGO_ATLAS_URI }}
+        MONGO_ATLAS_URI: ${{ secrets.MONGO_ATLAS_URI }}
       run: |
         npm install
         echo $MONGO_ATLAS_URI
