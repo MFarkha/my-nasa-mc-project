@@ -33,11 +33,11 @@ jobs:
         npm install
         npm run test
 
-    # - uses: azure/docker-login@v1
-    #   with:
-    #     login-server: contoso.azurecr.io
-    #     username: ${{ secrets.REGISTRY_USERNAME }}
-    #     password: ${{ secrets.REGISTRY_PASSWORD }}
+    - name: Log in to Docker Hub
+      uses: docker/login-action@f4ef78c080cd8ba55a85445d5b36e214a81df20a
+      with:
+        username: ${{ secrets.REGISTRY_USERNAME }}
+        password: ${{ secrets.REGISTRY_PASSWORD }}
   
     - name: Build the Docker image
       run: |
