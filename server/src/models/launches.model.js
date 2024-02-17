@@ -104,7 +104,7 @@ const abortLaunchWithId = async (launchId) => {
         upcoming: false,
         success: false
     })
-    return resultAbort.matchedCount === 1 && resultAbort.modifiedCount === 1;
+    return resultAbort.matchedCount === 1;
 }
 
 const getLatestFlightNumber = async () => {

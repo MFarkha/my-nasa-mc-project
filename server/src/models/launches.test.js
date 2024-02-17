@@ -64,7 +64,7 @@ describe ('Test /launches API', () => {
         })
     });
     describe ('Test DELETE /launches/:id: abort a launch', () => {
-        const launchId = 101;
+        const launchId = 100;
         it('should respond with 200 success', async () => {
             const response = await request(app)
                 .delete(`/v1/launches/${launchId}`)

@@ -31,6 +31,7 @@ jobs:
         MONGO_ATLAS_URI: ${{ secrets.MONGO_ATLAS_URI }}
       run: |
         npm install
+        echo $MONGO_ATLAS_URI
         npm run test
 
     # - uses: azure/docker-login@v1
