@@ -17,8 +17,8 @@ jobs:
   build:
     runs-on: ubuntu-latest
     environment: dev
-    # env:
-    #   MONGO_ATLAS_URI: ${{ secrets.MONGO_ATLAS_URI }}
+    env:
+      MONGO_ATLAS_URI: ${{ secrets.MONGO_ATLAS_URI }}
     steps:
     - uses: actions/checkout@v3
 
@@ -28,14 +28,10 @@ jobs:
         node-version: ${{ env.NODE_VERSION }}
         cache: 'npm'
 
-    # Runs a single command using the runners shell
-    # - name: Run a one-line script
-    #   run: echo '${{ secrets.MONGO_ATLAS_URI }}' | sed 's/./& /g'
-
     - name: npm install and test
       run: |
         npm install
-        MONGO_ATLAS_URI="${{ secrets.MONGO_ATLAS_URI }}" npm run test
+        npm run test
 
     # - uses: azure/docker-login@v1
     #   with:
@@ -43,10 +39,10 @@ jobs:
     #     username: ${{ secrets.REGISTRY_USERNAME }}
     #     password: ${{ secrets.REGISTRY_PASSWORD }}
   
-    # - name: Build the Docker image
-    #   run: |
-    #     docker build . -t famaten/my-nasa-mc-project
-    #     docker push famaten/my-nasa-mc-project
+    - name: Build the Docker image
+      run: |
+        docker build . -t famaten/my-nasa-mc-project
+        docker push famaten/my-nasa-mc-project
   
     # - name: 'Deploy to Azure WebApp'
     #   id: deploy-to-webapp
