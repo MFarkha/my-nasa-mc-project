@@ -18,4 +18,5 @@ This is not an official NASA application and is not affiliated with NASA or Spac
 
 ### Contributors
 1. A front-end part and whole idea of the application is from [Zero to Mastery course](https://academy.zerotomastery.io/courses/1206554/lectures/32702902)
+
 2. The "SpaceX data" received from [here](https://github.com/r-spacex/SpaceX-API)
