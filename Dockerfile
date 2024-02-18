@@ -6,7 +6,7 @@ RUN mkdir -p /usr/app/server
 
 WORKDIR /usr/app
 
-ENV MONGO_ATLAS_URI = ${MONGO_URI}
+ENV MONGO_ATLAS_URI=${MONGO_URI}
 
 # install dependencies
 COPY package*json ./
