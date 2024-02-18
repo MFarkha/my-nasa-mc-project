@@ -1,6 +1,7 @@
 FROM node:lts-alpine@sha256:51e341881c2b77e52778921c685e711a186a71b8c6f62ff2edfc6b6950225a2f
 
 # based on security recommendations:
+# https://cheatsheetseries.owasp.org/cheatsheets/NodeJS_Docker_Cheat_Sheet.html
 RUN apk add dumb-init
 
 RUN mkdir -p /usr/app
