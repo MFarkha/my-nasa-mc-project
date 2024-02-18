@@ -1,4 +1,7 @@
-## This is NASA Mission Control Front-End App based on React
+## This is NASA Mission Control Front-End App based on React / Vite
 
-## Getting Started with Create React App
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+### How to start localy
+- `npm run dev`
+
+### How to build
+- `npm run build`
