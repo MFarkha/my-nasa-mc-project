@@ -1,4 +1,4 @@
-## This directory contains scripts to deploy the app into Azure Web App Service
+## This directory contains instructions to deploy the app into Azure Web App Service
 
 1. Manual steps to deploy with Azure CLI
 - set the variables:
@@ -6,7 +6,7 @@
     - `export location=AZURE_AVAILABILITY_ZONE`
     - `export appServicePlan=NAME_OF_SERVICE_PLAN`
     - `export webapp=WEB_APP_NAME`
-    - `export mongo_atlas_uri` - **uri of MongoDB Atlas URI**
+    - `export mongo_atlas_uri=URI_OF_MONGO_ATLAS` - **uri of MongoDB Atlas URI**
 - run the commands:
     - `az login`
     - `az group create --name $resourceGroup --location "$location"`
