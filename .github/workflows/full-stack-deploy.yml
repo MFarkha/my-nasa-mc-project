@@ -38,8 +38,10 @@ jobs:
         password: ${{ secrets.REGISTRY_PASSWORD }}
   
     - name: Build the Docker image
+      env:
+        MONGO_URI: ${{ secrets.MONGO_ATLAS_URI }}
       run: |
-        docker build . -t famaten/my-nasa-mc-project
+        docker build --build-arg MONGO_URI . -t famaten/my-nasa-mc-project
         docker push famaten/my-nasa-mc-project
 
   deploy:

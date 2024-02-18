@@ -11,3 +11,6 @@
     - `az group create --name $resourceGroup --location "$location"`
     - `az appservice plan create --name $appServicePlan --resource-group $resourceGroup --sku FREE  --is-linux`
     - `az webapp create --name $webapp --resource-group $resourceGroup --plan $appServicePlan --runtime "NODE|18-lts"`
+    - `az webapp log config --name $webapp --resource-group $resourceGroup --docker-container-logging filesystem`
+- to watch logs of the app container:
+    - `az webapp log tail --name $webapp --resource-group $resourceGroup`
