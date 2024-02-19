@@ -1,6 +1,7 @@
 ## This directory contains instructions to deploy the app into Azure Web App Service
 
 1. Manual steps to deploy with Azure CLI
+- details from [here](https://github.com/marketplace/actions/azure-webapp-node20-fix)
 - set the variables:
     - `export resourceGroup=NAME_OF_RESOURCE_GROUP`
     - `export location=AZURE_AVAILABILITY_ZONE`

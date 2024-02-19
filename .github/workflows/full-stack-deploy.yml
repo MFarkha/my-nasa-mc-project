@@ -1,12 +1,15 @@
+# Beforehand, you should set an environment named "dev" with the following secrets:
+#   REGISTRY_USERNAME
+#   MONGO_ATLAS_URI
+#   REGISTRY_PASSWORD
+
 name: Build and Deploy full stack app to Azure Web App
 on:
-    push:
-        branches:
-        - github
-    workflow_dispatch: {}
-
-env:
-  NODE_VERSION: '18.x'                # set this to the node version to use
+  push:
+    branches: [ github ]
+  # pull_request:
+  #   branches: [ main ]
+  workflow_dispatch: {}
 
 permissions:
   contents: read
@@ -14,19 +17,28 @@ permissions:
 jobs:
   build:
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node_version: ['18.x', '20.x']
+        mongodb-version: ['4.2', '4.4', '5.0', '6.0']
     environment: dev
-    env:
-      MONGO_ATLAS_URI: ${{ secrets.MONGO_ATLAS_URI }}
     steps:
     - uses: actions/checkout@v3
 
-    - name: Set up Node.js
+    - name: Set up Node.js version ${{ matrix.node_version }}
       uses: actions/setup-node@v3
       with:
-        node-version: ${{ env.NODE_VERSION }}
+        node-version: ${{ matrix.node_version }}
         cache: 'npm'
 
+    - name: Use MongoDB in GitHub Actions # setting up test MongoDB
+      uses: supercharge/mongodb-github-action@1.10.0
+      with:
+        mongodb-version: ${{ matrix.mongodb-version }}
+
     - name: npm install and test
+      env:
+        MONGO_ATLAS_URI: 'mongodb://localhost/nasa-mc-db' # test MongoDB
       run: |
         npm install
         npm run test
@@ -42,19 +54,17 @@ jobs:
         docker build . -t famaten/my-nasa-mc-project
         docker push famaten/my-nasa-mc-project
 
-  deploy:
-    runs-on: ubuntu-latest
-    environment: dev
-    needs: build
-    # env:
-    #   PORT: 80
-    steps:
-    - name: 'Deploy to Azure WebApp'
-      id: deploy-to-webapp
-      uses: azure/webapps-deploy@v2
-      with:
-        app-name: ${{ secrets.AZURE_WEBAPP_NAME }}
-        publish-profile: ${{ secrets.AZURE_WEBAPP_PUBLISH_PROFILE }}
-        images: famaten/my-nasa-mc-project
+  # deploy:
+  #   runs-on: ubuntu-latest
+  #   environment: dev
+  #   needs: build
+  #   steps:
+  #   - name: 'Deploy to Azure WebApp'
+  #     id: deploy-to-webapp
+  #     uses: azure/webapps-deploy@v2
+  #     with:
+  #       app-name: ${{ secrets.AZURE_WEBAPP_NAME }}
+  #       publish-profile: ${{ secrets.AZURE_WEBAPP_PUBLISH_PROFILE }}
+  #       images: famaten/my-nasa-mc-project
 
 
