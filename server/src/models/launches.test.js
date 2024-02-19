@@ -4,6 +4,7 @@ const { mongoConnect, mongoDisconnect } = require('../utils/mongo');
 const { loadPlanetsData } = require('./planets.model');
 
 describe ('Test /launches API', () => {
+    let newLaunchId;
     beforeAll(async () => {
         await mongoConnect();
         await loadPlanetsData();
@@ -46,6 +47,7 @@ describe ('Test /launches API', () => {
             const requestDate = new Date(completeLaunch.launchDate).valueOf();
             const responseDate = new Date(response.body.launchDate).valueOf();
             expect(response.body).toMatchObject(launchWithoutDate);
+            newLaunchId = response.body.flightNumber;
             expect(requestDate).toBe(responseDate);
         });
         it('should catch missing required properties', async () => {
@@ -66,7 +68,7 @@ describe ('Test /launches API', () => {
         })
     });
     describe ('Test DELETE /launches/:id: abort a launch', () => {
-        const launchId = 100;
+        const launchId = newLaunchId || 100;
         it('should respond with 200 success', async () => {
             const response = await request(app)
                 .delete(`/v1/launches/${launchId}`)
