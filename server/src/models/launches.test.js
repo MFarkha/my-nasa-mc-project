@@ -19,7 +19,7 @@ describe ('Test /launches API', () => {
                 .expect(200);
         })
     });
-    describe ('Test /launch: add and abort a launch', () => {
+    describe ('Test /launch: add a new launch', () => {
         const completeLaunch = {
             mission: "USS Enterprise",
             rocket: 'NCC 1701-D',
@@ -46,6 +46,7 @@ describe ('Test /launches API', () => {
             const requestDate = new Date(completeLaunch.launchDate).valueOf();
             const responseDate = new Date(response.body.launchDate).valueOf();
             expect(response.body).toMatchObject(launchWithoutDate);
+            console.log()
             expect(requestDate).toBe(responseDate);
         });
         it('should catch missing required properties', async () => {
@@ -64,6 +65,9 @@ describe ('Test /launches API', () => {
                 .expect(400);
             expect(response.body).toStrictEqual({ error: 'Invalid date format' });
         })
+    });
+
+    describe ('Test /launch/:id : abort a launch', () => {
         const launchId = 1;
         it('should abort a launch succesfully', async () => {
             const response = await request(app)
@@ -73,4 +77,5 @@ describe ('Test /launches API', () => {
             expect(response.body).toHaveProperty('ok', true);
         })
     });
+
 })
