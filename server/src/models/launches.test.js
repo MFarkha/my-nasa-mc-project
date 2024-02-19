@@ -46,7 +46,6 @@ describe ('Test /launches API', () => {
             const requestDate = new Date(completeLaunch.launchDate).valueOf();
             const responseDate = new Date(response.body.launchDate).valueOf();
             expect(response.body).toMatchObject(launchWithoutDate);
-            console.log()
             expect(requestDate).toBe(responseDate);
         });
         it('should catch missing required properties', async () => {
@@ -68,13 +67,23 @@ describe ('Test /launches API', () => {
     });
 
     describe ('Test /launch/:id : abort a launch', () => {
-        const launchId = 1;
+        const completeLaunch = {
+            mission: "USS Enterprise 2",
+            rocket: 'NCC 1701-D',
+            target: 'Kepler-296 A e',
+            launchDate: 'Jan 5, 2028'
+        }
         it('should abort a launch succesfully', async () => {
-            const response = await request(app)
+            const responseAddLaunch = await request(app)
+                .post('/v1/launches')
+                .send(completeLaunch)
+            const launchId = responseAddLaunch.body.flightNumber || 1;
+
+            const responseAbortLaunch = await request(app)
                 .delete(`/v1/launches/${launchId}`)
                 .expect('Content-type', /json/)
                 .expect(200);
-            expect(response.body).toHaveProperty('ok', true);
+            expect(responseAbortLaunch.body).toHaveProperty('ok', true);
         })
     });
 
