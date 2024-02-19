@@ -4,7 +4,6 @@ const { mongoConnect, mongoDisconnect } = require('../utils/mongo');
 const { loadPlanetsData } = require('./planets.model');
 
 describe ('Test /launches API', () => {
-    let newLaunchId;
     beforeAll(async () => {
         await mongoConnect();
         await loadPlanetsData();
@@ -20,7 +19,7 @@ describe ('Test /launches API', () => {
                 .expect(200);
         })
     });
-    describe ('Test POST /launch: add a new launch', () => {
+    describe ('Test /launch: add and abort a launch', () => {
         const completeLaunch = {
             mission: "USS Enterprise",
             rocket: 'NCC 1701-D',
@@ -47,7 +46,6 @@ describe ('Test /launches API', () => {
             const requestDate = new Date(completeLaunch.launchDate).valueOf();
             const responseDate = new Date(response.body.launchDate).valueOf();
             expect(response.body).toMatchObject(launchWithoutDate);
-            newLaunchId = response.body.flightNumber;
             expect(requestDate).toBe(responseDate);
         });
         it('should catch missing required properties', async () => {
@@ -66,10 +64,8 @@ describe ('Test /launches API', () => {
                 .expect(400);
             expect(response.body).toStrictEqual({ error: 'Invalid date format' });
         })
-    });
-    describe ('Test DELETE /launches/:id: abort a launch', () => {
-        const launchId = newLaunchId || 100;
-        it('should respond with 200 success', async () => {
+        const launchId = 1;
+        it('should abort a launch succesfully', async () => {
             const response = await request(app)
                 .delete(`/v1/launches/${launchId}`)
                 .expect('Content-type', /json/)
